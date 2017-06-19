@@ -38,6 +38,7 @@ var Player = function(x,y){
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
 Player.prototype.update = function(dt) {
+    Player.prototype.handleInput() * dt;
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
@@ -51,13 +52,13 @@ Player.prototype.render = function() {
 
 Player.prototype.handleInput = function(input){
     switch(input){
-    case 'left': this.x -=10;
+    case 'left': this.x -=102;
     break;
-    case 'right': this.x +=10;
+    case 'right': this.x +=102;
     break;
-    case 'down': this.y +=10;
+    case 'down': this.y +=83;
     break;
-    case 'up': this.y -=10;
+    case 'up': this.y -=83;
     break;
     default: return;
     break;
@@ -67,12 +68,12 @@ Player.prototype.handleInput = function(input){
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
-enemy1= new Enemy(1,1);
-
-var allEnemies= [enemy1];
 
 
-player1 = new Player(20,20);
+var allEnemies= [new Enemy(1,60),new Enemy(1,142),new Enemy(1,229)];
+
+
+player1 = new Player(201,405);
 var player  = player1;
 
 // This listens for key presses and sends the keys to your
@@ -84,6 +85,13 @@ document.addEventListener('keyup', function(e) {
         39: 'right',
         40: 'down'
     };
+    // document.addEventListener('keydown', function(b) {
+    // var ballowedKeys = {
+    //     37: 'left',
+    //     38: 'up',
+    //     39: 'right',
+    //     40: 'down'
+    // };
 
     player.handleInput(allowedKeys[e.keyCode]);
 });
