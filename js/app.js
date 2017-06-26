@@ -104,7 +104,7 @@ Player.prototype.handleInput = function(input){
         go = false;
     }
         else if(go===false){
-        go ===true;
+        go = true;
         }
     break;
 

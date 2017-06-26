@@ -80,22 +80,19 @@ var Engine = (function(global) {
      * functionality this way (you could just implement collision detection
      * on the entities themselves within your app.js file).
      */
-     // function checkCollisions(){
-     //    var maxX = Enemy.x + 50;
-     //    var minX = Enemy.x - 50;
-     //    var maxY = Enemy.y + 50;
-     //    var minY = Enemy.y - 50;
-     //    console.log(player.x);
-     //    if ((player.x <= maxX && player.x >= minX) && (player.y <= maxY && player.y  >= minY))
-     //    {
-     //        alert("Collision");
-     //    }
-     // }
-
 
     function update(dt) {
-         if(go==true){
+         if(go===true){
             updateEntities(dt);
+        }
+        else {
+            (function pauseScreen(){
+        ctx.clearRect(0, 0, 500, 50);
+        ctx.font = '84px serif';
+        ctx.fillStyle = 'red';
+        ctx.fillText("GAME PAUSED",60,300);
+    })();
+
         }
         // checkCollisions();
     }
