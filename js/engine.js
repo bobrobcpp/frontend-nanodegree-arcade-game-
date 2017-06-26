@@ -78,6 +78,19 @@ var Engine = (function(global) {
      * functionality this way (you could just implement collision detection
      * on the entities themselves within your app.js file).
      */
+     // function checkCollisions(){
+     //    var maxX = Enemy.x + 50;
+     //    var minX = Enemy.x - 50;
+     //    var maxY = Enemy.y + 50;
+     //    var minY = Enemy.y - 50;
+     //    console.log(player.x);
+     //    if ((player.x <= maxX && player.x >= minX) && (player.y <= maxY && player.y  >= minY))
+     //    {
+     //        alert("Collision");
+     //    }
+     // }
+
+
     function update(dt) {
         updateEntities(dt);
         // checkCollisions();
@@ -92,6 +105,17 @@ var Engine = (function(global) {
      */
     function updateEntities(dt) {
             allEnemies.forEach(function(enemy,index) {
+                (function checkCollisions(){
+                    var maxX = enemy.x + 80;
+                    var minX = enemy.x - 40;
+                    var maxY = enemy.y + 30;
+                    var minY = enemy.y - 30;
+                    console.log("Bug  = " + enemy.x + " " + enemy.y);
+                    if ((player.x < maxX && player.x > minX) && (player.y < maxY && player.y  > minY))
+                    {
+                        player.reset();
+                    }
+            })();
 
 
                 if (enemy.x >= ctx.canvas.width)

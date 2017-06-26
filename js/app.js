@@ -7,30 +7,18 @@ var Enemy = function(x,y) {
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
 
-    // this.ctx = document.querySelector("canvas");
     this.sprite = 'images/enemy-bug.png';
     this.x = x;
     this.y = y;
     this.speed = Math.floor(Math.random() * (80))+40;
-    // this.currentIndex = boardPosition.indexOf(this.y);
-    // console.log(this.currentIndex);
+
 
 };
 
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
 Enemy.prototype.update = function(dt) {
-
-
             this.x+=this.speed * dt;
-        //     allEnemies.forEach(function(enemy,index) {
-        //     if (allEnemies[index].x >= ctx.canvas.width)
-        //     {
-        //         allEnemies.splice((allEnemies[index]),1,(new Enemy(1,allEnemies[index].y)));
-        //     }
-        // });
-
-
 };
 
 // Draw the enemy on the screen, required method for game
@@ -43,14 +31,10 @@ Enemy.prototype.enemyX = function(){
 };
 
 Enemy.prototype.enemyY= function(){
-    this.y = boardPosition[Math.floor(Math.random() * (3 - 0 + 1)) + 0];
+    this.y = boardPosition[Math.floor(Math.random() * ((2 - 0) + 1)) + 0];
     return this.y;
 };
 
-// Enemy.prototype.reset = function(){
-//                allEnemies.splice((allEnemies[index]),1,(new Enemy(1,Enemy.prototype.enemyY())));
-
-// };
 
 // Now write your own player class
 // This class requires an update(), render() and
