@@ -1,3 +1,4 @@
+    var boardPosition = [60,142,229];
 // Enemies our player must avoid
 var Enemy = function(x,y) {
     // Variables applied to each of our instances go here,
@@ -5,18 +6,30 @@ var Enemy = function(x,y) {
 
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
+
+    // this.ctx = document.querySelector("canvas");
     this.sprite = 'images/enemy-bug.png';
     this.x = x;
     this.y = y;
+    this.speed = Math.floor(Math.random() * (80))+40;
+    // this.currentIndex = boardPosition.indexOf(this.y);
+    // console.log(this.currentIndex);
+
 };
 
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
 Enemy.prototype.update = function(dt) {
-    this.x+=20 * dt;
-    // You should multiply any movement by the dt parameter
-    // which will ensure the game runs at the same speed for
-    // all computers.
+
+
+            this.x+=this.speed * dt;
+        //     allEnemies.forEach(function(enemy,index) {
+        //     if (allEnemies[index].x >= ctx.canvas.width)
+        //     {
+        //         allEnemies.splice((allEnemies[index]),1,(new Enemy(1,allEnemies[index].y)));
+        //     }
+        // });
+
 
 };
 
@@ -25,7 +38,19 @@ Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
+Enemy.prototype.enemyX = function(){
+    return Math.floor(Math.random() * 505);
+};
 
+Enemy.prototype.enemyY= function(){
+    this.y = boardPosition[Math.floor(Math.random() * (3 - 0 + 1)) + 0];
+    return this.y;
+};
+
+// Enemy.prototype.reset = function(){
+//                allEnemies.splice((allEnemies[index]),1,(new Enemy(1,Enemy.prototype.enemyY())));
+
+// };
 
 // Now write your own player class
 // This class requires an update(), render() and
@@ -70,14 +95,27 @@ Player.prototype.handleInput = function(input){
     break;
 
     case 'up': if(this.y > 60)
-    this.y -=83;
-    break;
+        {
+            this.y -=83;
+        }
+        break;
 
     case 'q': player.reset();
     break;
 
+    // case 'd': allEnemies.forEach(function(enemy) {
+    //           enemy = null;
+    //     });
+    // case 'd':   allEnemies[0].sprite = 'images/char-boy.png';
+    break;
+
     default: return;
     break;
+    }
+    if(player.y ===-10){
+        setTimeout(function () {
+            player.reset();
+        }, 500);
     }
 };
 
@@ -85,13 +123,11 @@ Player.prototype.handleInput = function(input){
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 
-function positionEnemy(){
-    var boardPosition = [60,142,229]
-    return boardPosition[Math.floor(Math.random() * (3 - 0 + 1)) + 0];
-};
 
 
-var allEnemies= [new Enemy(1,positionEnemy()),new Enemy(1,positionEnemy()),new Enemy(1,positionEnemy())];
+
+
+var allEnemies= [new Enemy(Enemy.prototype.enemyX(),Enemy.prototype.enemyY()),new Enemy(Enemy.prototype.enemyX(),Enemy.prototype.enemyY()),new Enemy(Enemy.prototype.enemyX(),Enemy.prototype.enemyY())];
 
 
 player1 = new Player(201,405);
@@ -105,7 +141,8 @@ document.addEventListener('keyup', function(e) {
         38: 'up',
         39: 'right',
         40: 'down',
-        81: 'q'
+        81: 'q',
+        68: 'd'
     };
 
 
