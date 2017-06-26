@@ -39,12 +39,14 @@ var Engine = (function(global) {
          * would be the same for everyone (regardless of how fast their
          * computer is) - hurray time!
          */
+
         var now = Date.now(),
             dt = (now - lastTime) / 1000.0;
 
         /* Call our update/render functions, pass along the time delta to
          * our update function since it may be used for smooth animation.
          */
+
         update(dt);
         render();
 
@@ -92,7 +94,9 @@ var Engine = (function(global) {
 
 
     function update(dt) {
-        updateEntities(dt);
+         if(go==true){
+            updateEntities(dt);
+        }
         // checkCollisions();
     }
 
@@ -215,5 +219,6 @@ var Engine = (function(global) {
      * object when run in a browser) so that developers can use it more easily
      * from within their app.js files.
      */
+    global.go = true;
     global.ctx = ctx;
 })(this);

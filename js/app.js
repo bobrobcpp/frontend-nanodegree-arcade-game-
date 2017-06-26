@@ -1,4 +1,7 @@
     var boardPosition = [60,142,229];
+    var win = false;
+
+
 // Enemies our player must avoid
 var Enemy = function(x,y) {
     // Variables applied to each of our instances go here,
@@ -62,6 +65,16 @@ Player.prototype.update = function(dt) {
 // Draw the enemy on the screen, required method for game
 Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    if (win ===true){
+        ctx.font = '84px serif';
+        ctx.fillStyle = 'red';
+        ctx.fillText("VICTORY!",60,300);
+        setTimeout(function () {
+        win = false;
+        return;
+        }, 1000);
+
+    }
 };
 
 Player.prototype.handleInput = function(input){
@@ -87,18 +100,23 @@ Player.prototype.handleInput = function(input){
     case 'q': player.reset();
     break;
 
-    // case 'd': allEnemies.forEach(function(enemy) {
-    //           enemy = null;
-    //     });
-    // case 'd':   allEnemies[0].sprite = 'images/char-boy.png';
+    case 'p': if(go===true){
+        go = false;
+    }
+        else if(go===false){
+        go ===true;
+        }
     break;
 
     default: return;
     break;
     }
+
+    // Player wins!
     if(player.y ===-10){
         setTimeout(function () {
             player.reset();
+            win = true;
         }, 500);
     }
 };
@@ -106,9 +124,6 @@ Player.prototype.handleInput = function(input){
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
-
-
-
 
 
 var allEnemies= [new Enemy(Enemy.prototype.enemyX(),Enemy.prototype.enemyY()),new Enemy(Enemy.prototype.enemyX(),Enemy.prototype.enemyY()),new Enemy(Enemy.prototype.enemyX(),Enemy.prototype.enemyY())];
@@ -125,8 +140,11 @@ document.addEventListener('keyup', function(e) {
         38: 'up',
         39: 'right',
         40: 'down',
+        80: 'p',
         81: 'q',
         68: 'd'
+
+
     };
 
 
