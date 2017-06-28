@@ -116,7 +116,7 @@ var Engine = (function(global) {
         var minY = item.y - 30;
         if ((player.x < maxX && player.x > minX) && (player.y < maxY && player.y  > minY))
         {
-            flag.Object.keys(flag)[0] = true;
+            flag[Object.keys(flag)[0]] = true;
             // Object.keys(flag)[0] = true;
             // flag = true;
         }
