@@ -5,14 +5,15 @@ var Gem = function(x,y){
     this.y = y;
 };
 Gem.prototype.randX= function(){
-        return Math.floor(Math.random() * 505);
+        return Math.floor(Math.random() * 495 + 0);
 };
 Gem.prototype.randY= function(){
-        return Math.floor(Math.random() * 505+70);
+        return Math.floor(Math.random() * 250+70);
 };
 Gem.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y,70,100);
 };
+
 
 // Enemies our player must avoid
 var Enemy = function(x,y) {

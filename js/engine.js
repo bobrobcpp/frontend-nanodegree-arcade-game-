@@ -98,6 +98,7 @@ var Engine = (function(global) {
     function updateEntities(dt) {
     allEnemies.forEach(function(enemy,index) {
     checkCollisions(enemy, myGlob);
+    checkCollisions(currentGem, isGem);
 
     if (enemy.x >= ctx.canvas.width)
     {
@@ -110,53 +111,29 @@ var Engine = (function(global) {
     });
 
      function checkCollisions(item, flag){
+        if(item instanceof Enemy){
         var maxX = item.x + 80;
         var minX = item.x - 40;
         var maxY = item.y + 30;
         var minY = item.y - 30;
-        if ((player.x < maxX && player.x > minX) && (player.y < maxY && player.y  > minY))
+    }
+    else if(item instanceof Gem){
+        var maxX = item.x + 50;
+        var minX = item.x - 80;
+        var maxY = item.y + 30;
+        var minY = item.y - 100;
+    }
+        if (((player.x < maxX) && (player.x > minX)) && ((player.y < maxY) && (player.y  > minY)))
         {
             flag[Object.keys(flag)[0]] = true;
-            // Object.keys(flag)[0] = true;
-            // flag = true;
+            if(item instanceof Gem){
+                currentGem = new Gem(Gem.prototype.randX(),Gem.prototype.randY());
+                gems+=1;
+                scoreboard();
+            }
         }
      }
 
-
-
-
-    // function updateEntities(dt) {
-    //         allEnemies.forEach(function(enemy,index) {
-    //             var item = enemy;
-    //             (function checkCollisions(){
-    //                 var maxX = enemy.x + 80;
-    //                 var minX = enemy.x - 40;
-    //                 var maxY = enemy.y + 30;
-    //                 var minY = enemy.y - 30;
-    //                 if ((player.x < maxX && player.x > minX) && (player.y < maxY && player.y  > minY))
-    //                 {
-    //                     crushed = true;
-    //                 }
-    //         })();
-
-
-    //             if (enemy.x >= ctx.canvas.width)
-    //             {
-    //                allEnemies.splice(index,1,(new Enemy(1,Enemy.prototype.randY())));
-    //                enemy.update(dt);
-    //             }
-    //             else{
-    //                 enemy.update(dt);
-    //             }
-    //         });
-
-
-
-
-
-            // allEnemies.forEach(function(enemy) {
-            //     enemy.update(dt);
-            // });
             player.update();
     }
 
@@ -210,12 +187,24 @@ var Engine = (function(global) {
         /* Loop through all of the objects within the allEnemies array and call
          * the render function you have defined.
          */
+
          currentGem.render();
         allEnemies.forEach(function(enemy) {
             enemy.render();
         });
 
         player.render();
+
+        if (isGem.captured ===true){
+        ctx.font = '84px serif';
+        ctx.fillStyle = 'red';
+        ctx.fillText("GEM!",60,300);
+
+        setTimeout(function () {
+        isGem.captured = false;
+        return;
+        }, 1000);
+    }
         scoreboard();
 // check if player has won and display "victory" if so.
             if (winner ===true){
@@ -254,7 +243,7 @@ var Engine = (function(global) {
     }
 
     function scoreboard(){
-        var gems =100;
+        ctx.clearRect(0,0,500,50);
         ctx.font = '30px serif';
         ctx.fillText("Gems Collected " + gems, 10,40);
     }
@@ -287,13 +276,11 @@ var Engine = (function(global) {
 
      */
 
-     global.myGlob = {crushed : false};
-     // myGlob.PAUSE = false;
-     // myGlob.winner = false;
-
-
+    global.myGlob = {crushed : false};
+    global.isGem = {captured : false};
+    global.gems =0;
     global.PAUSE = false;
     global.ctx = ctx;
     global.winner = false;
-    // global.crushed = false;
+
 })(this);
