@@ -82,19 +82,9 @@ var Engine = (function(global) {
      */
 
     function update(dt) {
-         if(go===true){
+         if(PAUSE===false){
             updateEntities(dt);
         }
-        else {
-            (function pauseScreen(){
-        ctx.clearRect(0, 0, 500, 50);
-        ctx.font = '84px serif';
-        ctx.fillStyle = 'red';
-        ctx.fillText("GAME PAUSED",60,300);
-    })();
-
-        }
-        // checkCollisions();
     }
 
     /* This is called by the update function and loops through all of the
@@ -104,29 +94,65 @@ var Engine = (function(global) {
      * the data/properties related to the object. Do your drawing in your
      * render methods.
      */
+
     function updateEntities(dt) {
-            allEnemies.forEach(function(enemy,index) {
-                (function checkCollisions(){
-                    var maxX = enemy.x + 80;
-                    var minX = enemy.x - 40;
-                    var maxY = enemy.y + 30;
-                    var minY = enemy.y - 30;
-                    console.log("Bug  = " + enemy.x + " " + enemy.y);
-                    if ((player.x < maxX && player.x > minX) && (player.y < maxY && player.y  > minY))
-                    {
-                        player.reset();
-                    }
-            })();
+    allEnemies.forEach(function(enemy,index) {
+    checkCollisions(enemy, myGlob);
+
+    if (enemy.x >= ctx.canvas.width)
+    {
+       allEnemies.splice(index,1,(new Enemy(1,Enemy.prototype.randY())));
+       enemy.update(dt);
+    }
+    else{
+        enemy.update(dt);
+    }
+    });
+
+     function checkCollisions(item, flag){
+        var maxX = item.x + 80;
+        var minX = item.x - 40;
+        var maxY = item.y + 30;
+        var minY = item.y - 30;
+        if ((player.x < maxX && player.x > minX) && (player.y < maxY && player.y  > minY))
+        {
+            flag.Object.keys(flag)[0] = true;
+            // Object.keys(flag)[0] = true;
+            // flag = true;
+        }
+     }
 
 
-                if (enemy.x >= ctx.canvas.width)
-                {
-               allEnemies.splice(index,1,(new Enemy(1,Enemy.prototype.enemyY())));
-                               enemy.update(dt);
-                }
-                else
-                                enemy.update(dt);
-            });
+
+
+    // function updateEntities(dt) {
+    //         allEnemies.forEach(function(enemy,index) {
+    //             var item = enemy;
+    //             (function checkCollisions(){
+    //                 var maxX = enemy.x + 80;
+    //                 var minX = enemy.x - 40;
+    //                 var maxY = enemy.y + 30;
+    //                 var minY = enemy.y - 30;
+    //                 if ((player.x < maxX && player.x > minX) && (player.y < maxY && player.y  > minY))
+    //                 {
+    //                     crushed = true;
+    //                 }
+    //         })();
+
+
+    //             if (enemy.x >= ctx.canvas.width)
+    //             {
+    //                allEnemies.splice(index,1,(new Enemy(1,Enemy.prototype.randY())));
+    //                enemy.update(dt);
+    //             }
+    //             else{
+    //                 enemy.update(dt);
+    //             }
+    //         });
+
+
+
+
 
             // allEnemies.forEach(function(enemy) {
             //     enemy.update(dt);
@@ -184,13 +210,54 @@ var Engine = (function(global) {
         /* Loop through all of the objects within the allEnemies array and call
          * the render function you have defined.
          */
+         currentGem.render();
         allEnemies.forEach(function(enemy) {
             enemy.render();
         });
 
         player.render();
+        scoreboard();
+// check if player has won and display "victory" if so.
+            if (winner ===true){
+        ctx.font = '84px serif';
+        ctx.fillStyle = 'red';
+        ctx.fillText("VICTORY!",60,300);
+        setTimeout(function () {
+        winner = false;
+        return;
+        }, 1000);
     }
 
+    //check if player has been crushed by bug
+    if(myGlob.crushed ===true){
+        player.sprite = 'images/star.png';
+        ctx.font = '84px serif';
+        ctx.fillStyle = 'red';
+        ctx.fillText("CRUSHED!",10,300);
+        setTimeout(function () {
+        myGlob.crushed = false;
+        player.reset();
+        }, 1000);
+    }
+    //check if pause button has been pressed
+        if (PAUSE===true)
+        {
+            (function pauseScreen(){
+
+        ctx.clearRect(0, 300, 500, 0);
+        ctx.font = '64px serif';
+        ctx.fillStyle = 'red';
+        ctx.fillText("GAME PAUSED",20,300);
+    })();
+
+        }
+    }
+
+    function scoreboard(){
+        var gems =100;
+        ctx.font = '30px serif';
+        ctx.fillText("Gems Collected " + gems, 10,40);
+    }
     /* This function does nothing but it could have been a good place to
      * handle game reset states - maybe a new game menu or a game over screen
      * those sorts of things. It's only called once by the init() method.
@@ -208,14 +275,25 @@ var Engine = (function(global) {
         'images/water-block.png',
         'images/grass-block.png',
         'images/enemy-bug.png',
-        'images/char-boy.png'
+        'images/char-boy.png',
+        'images/gem-green.png',
+        'images/star.png'
     ]);
     Resources.onReady(init);
 
     /* Assign the canvas' context object to the global variable (the window
      * object when run in a browser) so that developers can use it more easily
      * from within their app.js files.
+
      */
-    global.go = true;
+
+     global.myGlob = {crushed : false};
+     // myGlob.PAUSE = false;
+     // myGlob.winner = false;
+
+
+    global.PAUSE = false;
     global.ctx = ctx;
+    global.winner = false;
+    // global.crushed = false;
 })(this);
