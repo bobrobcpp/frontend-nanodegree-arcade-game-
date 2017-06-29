@@ -1,6 +1,16 @@
-frontend-nanodegree-arcade-game
-===============================
+# **frontend-nanodegree-arcade-game**
+ This is a simple arcade game known as frogger bulit with JavaScript.  
+ ## **Instructions**
+Download the frontend-nanodegree-arcade-game folder and extract contents.
+Simply open the index.html file in your browser to load the game.  
 
-Students should use this [rubric](https://review.udacity.com/#!/projects/2696458597/rubric) for self-checking their submission. Make sure the functions you write are **object-oriented** - either class functions (like Player and Enemy) or class prototype functions such as Enemy.prototype.checkCollisions, and that the keyword 'this' is used appropriately within your class and class prototype functions to refer to the object the function is called upon. Also be sure that the **readme.md** file is updated with your instructions on both how to 1. Run and 2. Play your arcade game.
+## **Playing the game**
+Use the directional keys to move your character around the board collecting the gems that appear, if you collide with an enemy bug your gem count will restart back at zero.  Reach the water on the other side to win the game and save your gem score for that game (if it is the highest score recorded so far).
+Press 'p' to pause/unpause the game and press 'q' to reset your character at the starting grid position.
 
-For detailed instructions on how to get started, check out this [guide](https://docs.google.com/document/d/1v01aScPjSWCCWQLIpFqvg3-vXLH2e8_SZQKC8jNO0Dc/pub?embedded=true).
+## **Contribute**
+You can report bugs or contribute by using this Github repository: [Github repo ](https://github.com/bobrobcpp/frontend-nanodegree-arcade-game-)
+
+## **Licensing**
+This game was created as part of of the Udacity Front End Developer Nanodegree.  gameengine.js/resources.js and and app.js were provided by Udacity and altered to make the function as it does.  All imagery used was similarly provided by Udacity.
+

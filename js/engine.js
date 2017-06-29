@@ -13,7 +13,6 @@
  * the canvas' context (ctx) object globally available to make writing app.js
  * a little simpler to work with.
  */
-
 var Engine = (function(global) {
     /* Predefine the variables we'll be using within this scope,
      * create the canvas element, grab the 2D context for that canvas
@@ -83,7 +82,7 @@ var Engine = (function(global) {
      */
 
     function update(dt) {
-         if(PAUSE===false){
+        if (PAUSE === false) {
             updateEntities(dt);
         }
     }
@@ -97,45 +96,42 @@ var Engine = (function(global) {
      */
 
     function updateEntities(dt) {
-    allEnemies.forEach(function(enemy,index) {
-    checkCollisions(enemy, myGlob);
-    checkCollisions(currentGem, isGem);
+        allEnemies.forEach(function(enemy, index) {
+            checkCollisions(enemy, myGlob);
+            checkCollisions(currentGem, isGem);
 
-    if (enemy.x >= ctx.canvas.width)
-    {
-       allEnemies.splice(index,1,(new Enemy(1,Enemy.prototype.randY())));
-       enemy.update(dt);
-    }
-    else{
-        enemy.update(dt);
-    }
-    });
-
-     function checkCollisions(item, flag){
-        if(item instanceof Enemy){
-        var maxX = item.x + 80;
-        var minX = item.x - 40;
-        var maxY = item.y + 30;
-        var minY = item.y - 30;
-    }
-    else if(item instanceof Gem){
-        var maxX = item.x + 50;
-        var minX = item.x - 80;
-        var maxY = item.y + 30;
-        var minY = item.y - 100;
-    }
-        if (((player.x < maxX) && (player.x > minX)) && ((player.y < maxY) && (player.y  > minY)))
-        {
-            flag[Object.keys(flag)[0]] = true;
-            if(item instanceof Gem){
-                currentGem = new Gem(Gem.prototype.randX(),Gem.prototype.randY());
-                gems+=1;
-                scoreboard();
+            if (enemy.x >= ctx.canvas.width) {
+                allEnemies.splice(index, 1, (new Enemy(1, Enemy.prototype.randY())));
+                enemy.update(dt);
+            } else {
+                enemy.update(dt);
+            }
+        });
+        //Check for player collisions between enemies and gems and update flags/scoreboard.
+        function checkCollisions(item, flag) {
+            if (item instanceof Enemy) {
+                var maxX = item.x + 80;
+                var minX = item.x - 40;
+                var maxY = item.y + 30;
+                var minY = item.y - 30;
+            } else if (item instanceof Gem) {
+                var maxX = item.x + 50;
+                var minX = item.x - 80;
+                var maxY = item.y + 30;
+                var minY = item.y - 100;
+            }
+            if (((player.x < maxX) && (player.x > minX)) && ((player.y < maxY) && (player.y > minY))) {
+                flag[Object.keys(flag)[0]] = true;
+                if (item instanceof Gem) {
+                    //Create a new gem in a random location
+                    currentGem = new Gem(Gem.prototype.randX(), Gem.prototype.randY());
+                    gems += 1;
+                    scoreboard();
+                }
             }
         }
-     }
 
-            player.update();
+        player.update();
     }
 
     /* This function initially draws the "game level", it will then call
@@ -149,12 +145,12 @@ var Engine = (function(global) {
          * for that particular row of the game level.
          */
         var rowImages = [
-                'images/water-block.png',   // Top row is water
-                'images/stone-block.png',   // Row 1 of 3 of stone
-                'images/stone-block.png',   // Row 2 of 3 of stone
-                'images/stone-block.png',   // Row 3 of 3 of stone
-                'images/grass-block.png',   // Row 1 of 2 of grass
-                'images/grass-block.png'    // Row 2 of 2 of grass
+                'images/water-block.png', // Top row is water
+                'images/stone-block.png', // Row 1 of 3 of stone
+                'images/stone-block.png', // Row 2 of 3 of stone
+                'images/stone-block.png', // Row 3 of 3 of stone
+                'images/grass-block.png', // Row 1 of 2 of grass
+                'images/grass-block.png' // Row 2 of 2 of grass
             ],
             numRows = 6,
             numCols = 5,
@@ -189,65 +185,67 @@ var Engine = (function(global) {
          * the render function you have defined.
          */
 
-         currentGem.render();
+        currentGem.render();
         allEnemies.forEach(function(enemy) {
             enemy.render();
         });
 
         player.render();
 
-        if (isGem.captured ===true){
-        setTimeout(function () {
-        isGem.captured = false;
-        return;
-        }, 1000);
-    }
+        if (isGem.captured === true) {
+            setTimeout(function() {
+                isGem.captured = false;
+                return;
+            }, 1000);
+        }
         scoreboard();
-// check if player has won and display "victory" if so.
-        if (winner ===true && myGlob.crushed ===false){
-        ctx.font = '84px serif';
-        ctx.fillStyle = 'red';
-        ctx.fillText("VICTORY!",60,300);
-        if(gems > topScore){topScore = gems;}
-        setTimeout(function () {
-        winner = false;
-        player.reset();
-        return;
-        }, 800);
-    }
-
-    //check if player has been crushed by bug
-    if(myGlob.crushed ===true){
-        document.removeEventListener('keyup',input);
-        player.sprite = 'images/star.png';
-        ctx.font = '84px serif';
-        ctx.fillStyle = 'red';
-        ctx.fillText("CRUSHED!",10,300);
-        setTimeout(function () {
-        myGlob.crushed = false;
-        player.reset();
-        }, 1000);
-        winner = false;
-    }
-    //check if pause button has been pressed
-        if (PAUSE===true)
-        {
-            (function pauseScreen(){
-            ctx.clearRect(0, 300, 500, 0);
-            ctx.font = '64px serif';
+        // check if player has won and display "victory" if so.
+        if (winner === true && myGlob.crushed === false) {
+            ctx.font = '84px serif';
             ctx.fillStyle = 'red';
-            ctx.fillText("GAME PAUSED",20,300);
+            ctx.fillText("VICTORY!", 60, 300);
+            if (gems > topScore) {
+                topScore = gems;
+            }
+            //Reset player and winner flag
+            setTimeout(function() {
+                winner = false;
+                player.reset();
+                return;
+            }, 800);
+        }
+
+        //check if player has been crushed by bug
+        if (myGlob.crushed === true) {
+            document.removeEventListener('keyup', input);
+            player.sprite = 'images/star.png';
+            ctx.font = '84px serif';
+            ctx.fillStyle = 'red';
+            ctx.fillText("CRUSHED!", 10, 300);
+            setTimeout(function() {
+                myGlob.crushed = false;
+                player.reset();
+            }, 1000);
+            winner = false;
+        }
+        //check if pause button has been pressed
+        if (PAUSE === true) {
+            (function pauseScreen() {
+                ctx.clearRect(0, 300, 500, 0);
+                ctx.font = '64px serif';
+                ctx.fillStyle = 'red';
+                ctx.fillText("GAME PAUSED", 20, 300);
             })();
         }
 
     }
 
-
-    function scoreboard(){
-        ctx.clearRect(0,0,500,50);
+    //Display gem collected and all time high scrore at the top of the canvas
+    function scoreboard() {
+        ctx.clearRect(0, 0, 500, 50);
         ctx.font = '30px serif';
-        ctx.fillText("Gems Collected: " + gems, 10,40);
-        ctx.fillText("High Score:" + topScore, 270,40);
+        ctx.fillText("Gems Collected: " + gems, 10, 40);
+        ctx.fillText("High Score:" + topScore, 270, 40);
     }
     /* This function does nothing but it could have been a good place to
      * handle game reset states - maybe a new game menu or a game over screen
@@ -277,12 +275,22 @@ var Engine = (function(global) {
      * from within their app.js files.
 
      */
-
-    global.myGlob = {crushed : false};
-    global.isGem = {captured : false};
-    global.gems =0;
+    //Several global variables are defined that are used in both engine.js and app.js
+    //global.myGlob is a flag if the player has been crushed by a bug
+    global.myGlob = {
+        crushed: false
+    };
+    // global.isGem.  Has the player captured a gem?
+    global.isGem = {
+        captured: false
+    };
+    //How many gems have been captured in this current life?
+    global.gems = 0;
+    //Has the player paused the game?
     global.PAUSE = false;
+    //Canvas context
     global.ctx = ctx;
+    //Has the player reached the water?
     global.winner = false;
 
 })(this);
