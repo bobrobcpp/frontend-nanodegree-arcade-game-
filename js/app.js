@@ -58,6 +58,7 @@ Player.prototype.reset = function(){
     this.x = 201;
     this.y= 405;
     gems= 0;
+    document.addEventListener('keyup', input);
 };
 
 Player.prototype.update = function(dt) {
@@ -69,6 +70,7 @@ Player.prototype.render = function() {
 };
 
 Player.prototype.handleInput = function(input){
+    if (PAUSE ===false){
     switch(input){
     case 'left': if(this.x > 0)
     this.x -=102;
@@ -91,17 +93,26 @@ Player.prototype.handleInput = function(input){
     case 'q': player.reset();
     break;
 
-    case 'p': if(PAUSE===false){
-        PAUSE= true;
-    }
-        else if(PAUSE===true){
-        PAUSE = false;
-        }
+
+    case 'p': PAUSE= true;
     break;
 
     default: return;
-    break;
     }
+}
+
+        else if(PAUSE===true){
+            switch(input){
+                case 'p' : PAUSE = false;
+                break;
+
+                default:return;
+            }
+        }
+
+
+
+
 
     // Player wins!
     if(player.y ===-10){
@@ -111,8 +122,6 @@ Player.prototype.handleInput = function(input){
     }
 };
 
-//review
-// Player.prototype.constructor = Player;
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
@@ -123,10 +132,9 @@ var allEnemies= [new Enemy(Enemy.prototype.randX(),Enemy.prototype.randY()),new 
 currentGem = new Gem(Gem.prototype.randX(),Gem.prototype.randY());
 player = new Player(201,405);
 
-// This listens for key presses and sends the keys to your
-// Player.handleInput() method. You don't need to modify this.
-document.addEventListener('keyup', function(e) {
-    var allowedKeys = {
+var input = function(e){
+    "use strict";
+        var allowedKeys = {
         37: 'left',
         38: 'up',
         39: 'right',
@@ -134,10 +142,8 @@ document.addEventListener('keyup', function(e) {
         80: 'p',
         81: 'q',
         68: 'd'
-
-
     };
-
-
     player.handleInput(allowedKeys[e.keyCode]);
-});
+}
+
+document.addEventListener('keyup',input);

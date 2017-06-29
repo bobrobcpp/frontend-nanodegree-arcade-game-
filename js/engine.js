@@ -204,7 +204,7 @@ var Engine = (function(global) {
     }
         scoreboard();
 // check if player has won and display "victory" if so.
-            if (winner ===true){
+        if (winner ===true && myGlob.crushed ===false){
         ctx.font = '84px serif';
         ctx.fillStyle = 'red';
         ctx.fillText("VICTORY!",60,300);
@@ -213,34 +213,35 @@ var Engine = (function(global) {
         winner = false;
         player.reset();
         return;
-        }, 1000);
+        }, 800);
     }
 
     //check if player has been crushed by bug
     if(myGlob.crushed ===true){
+        document.removeEventListener('keyup',input);
         player.sprite = 'images/star.png';
         ctx.font = '84px serif';
         ctx.fillStyle = 'red';
         ctx.fillText("CRUSHED!",10,300);
         setTimeout(function () {
         myGlob.crushed = false;
-
         player.reset();
         }, 1000);
+        winner = false;
     }
     //check if pause button has been pressed
         if (PAUSE===true)
         {
             (function pauseScreen(){
-
-        ctx.clearRect(0, 300, 500, 0);
-        ctx.font = '64px serif';
-        ctx.fillStyle = 'red';
-        ctx.fillText("GAME PAUSED",20,300);
-    })();
-
+            ctx.clearRect(0, 300, 500, 0);
+            ctx.font = '64px serif';
+            ctx.fillStyle = 'red';
+            ctx.fillText("GAME PAUSED",20,300);
+            })();
         }
+
     }
+
 
     function scoreboard(){
         ctx.clearRect(0,0,500,50);
