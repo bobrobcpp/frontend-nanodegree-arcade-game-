@@ -1,5 +1,5 @@
 # **frontend-nanodegree-arcade-game**
- This is a simple arcade game known as frogger bulit with JavaScript.  
+ This is a simple arcade game known as frogger built with JavaScript.  
  ## **Instructions**
 Download the frontend-nanodegree-arcade-game folder and extract contents.
 Simply open the index.html file in your browser to load the game.  
@@ -12,5 +12,5 @@ Press 'p' to pause/unpause the game and press 'q' to reset your character at the
 You can report bugs or contribute by using this Github repository: [Github repo ](https://github.com/bobrobcpp/frontend-nanodegree-arcade-game-)
 
 ## **Licensing**
-This game was created as part of of the Udacity Front End Developer Nanodegree.  gameengine.js/resources.js and and app.js were provided by Udacity and altered to make the function as it does.  All imagery used was similarly provided by Udacity.
+This game was created as part of of the Udacity Front End Developer Nanodegree.  The files gameengine.js, resources.js and and app.js were provided by Udacity and altered to make the game function as it does.  All images used were provided by Udacity.
 
