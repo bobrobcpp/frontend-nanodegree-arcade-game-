@@ -23,7 +23,8 @@ var Engine = (function(global) {
         win = global.window,
         canvas = doc.createElement('canvas'),
         ctx = canvas.getContext('2d'),
-        lastTime;
+        lastTime,
+        topScore = 0;
 
     canvas.width = 505;
     canvas.height = 606;
@@ -196,10 +197,6 @@ var Engine = (function(global) {
         player.render();
 
         if (isGem.captured ===true){
-        ctx.font = '84px serif';
-        ctx.fillStyle = 'red';
-        ctx.fillText("GEM!",60,300);
-
         setTimeout(function () {
         isGem.captured = false;
         return;
@@ -211,8 +208,10 @@ var Engine = (function(global) {
         ctx.font = '84px serif';
         ctx.fillStyle = 'red';
         ctx.fillText("VICTORY!",60,300);
+        if(gems > topScore){topScore = gems;}
         setTimeout(function () {
         winner = false;
+        player.reset();
         return;
         }, 1000);
     }
@@ -225,6 +224,7 @@ var Engine = (function(global) {
         ctx.fillText("CRUSHED!",10,300);
         setTimeout(function () {
         myGlob.crushed = false;
+
         player.reset();
         }, 1000);
     }
@@ -245,7 +245,8 @@ var Engine = (function(global) {
     function scoreboard(){
         ctx.clearRect(0,0,500,50);
         ctx.font = '30px serif';
-        ctx.fillText("Gems Collected " + gems, 10,40);
+        ctx.fillText("Gems Collected: " + gems, 10,40);
+        ctx.fillText("High Score:" + topScore, 270,40);
     }
     /* This function does nothing but it could have been a good place to
      * handle game reset states - maybe a new game menu or a game over screen

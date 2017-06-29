@@ -5,7 +5,7 @@ var Gem = function(x,y){
     this.y = y;
 };
 Gem.prototype.randX= function(){
-        return Math.floor(Math.random() * 495 + 0);
+        return Math.floor(Math.random() * 485 + 0);
 };
 Gem.prototype.randY= function(){
         return Math.floor(Math.random() * 250+70);
@@ -34,15 +34,6 @@ Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-// Enemy.prototype.randX = function(){
-//     return Math.floor(Math.random() * 505);
-// };
-
-// Enemy.prototype.randY= function(){
-//     var boardPosition = [60,142,229];
-//     this.y = boardPosition[Math.floor(Math.random() * ((2 - 0) + 1)) + 0];
-//     return this.y;
-// };
 
 //Random coordinate
 Enemy.prototype.randX = function(){
@@ -66,6 +57,7 @@ Player.prototype.reset = function(){
     this.sprite = 'images/char-boy.png';
     this.x = 201;
     this.y= 405;
+    gems= 0;
 };
 
 Player.prototype.update = function(dt) {
@@ -114,14 +106,13 @@ Player.prototype.handleInput = function(input){
     // Player wins!
     if(player.y ===-10){
         setTimeout(function () {
-            player.reset();
             winner = true;
         }, 500);
     }
 };
 
 //review
-Player.prototype.constructor = Player;
+// Player.prototype.constructor = Player;
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
